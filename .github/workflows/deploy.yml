@@ -1,0 +1,18 @@
+name: Trigger Site Rebuild
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Call Vercel Deploy Webhook
+        run: |
+          if [ -n "${{ secrets.VERCEL_DEPLOY_WEBHOOK_URL }}" ]; then
+            curl -X POST "${{ secrets.VERCEL_DEPLOY_WEBHOOK_URL }}"
+          else
+            echo "No VERCEL_DEPLOY_WEBHOOK_URL set yet."
+          fi
